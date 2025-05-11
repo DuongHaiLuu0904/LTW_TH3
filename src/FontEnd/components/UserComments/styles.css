@@ -1,0 +1,20 @@
+.user-comments-container {
+  padding: 16px;
+}
+
+.user-comments-header {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  margin-bottom: 16px;
+}
+
+/* Add smooth hover effect to card */
+.MuiCard-root {
+  transition: all 0.3s ease;
+}
+
+.MuiCard-root:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}

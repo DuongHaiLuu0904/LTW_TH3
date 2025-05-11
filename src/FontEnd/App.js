@@ -8,6 +8,7 @@ import TopBar from "./components/TopBar";
 import UserDetail from "./components/UserDetail";
 import UserList from "./components/UserList";
 import UserPhotos from "./components/UserPhotos";
+import UserComments from "./components/UserComments";
 
 const App = () => {
   return (
@@ -24,11 +25,12 @@ const App = () => {
             </Grid>
             
             <Grid item xs={12} sm={9}>
-              <Paper className="main-grid-item">
-                <Routes>
+              <Paper className="main-grid-item">                <Routes>
                   <Route path="/users/:userId" element={<UserDetail />} />
                   
                   <Route path="/photos/:userId" element={<UserPhotos />} />
+                  
+                  <Route path="/comments/:userId" element={<UserComments />} />
                   
                   <Route path="/users" element={
                     <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100%' }}>

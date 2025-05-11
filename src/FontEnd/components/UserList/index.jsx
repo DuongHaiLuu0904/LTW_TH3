@@ -9,27 +9,37 @@ import {
   Avatar,
   Box,
   CircularProgress,
+  Chip,
 } from "@mui/material";
 import { useNavigate } from "react-router-dom";
+import PhotoIcon from '@mui/icons-material/Photo';
+import CommentIcon from '@mui/icons-material/Comment';
 
 import "./styles.css";
 import fetchModel from "../../lib/fetchModelData";
 
 function UserList() {
   const [users, setUsers] = useState([]);
+  const [userStats, setUserStats] = useState({});
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const navigate = useNavigate();
   
   useEffect(() => {
     setLoading(true);
-    fetchModel("/api/user/list")
-      .then((data) => {
-        setUsers(data);
+    
+    // Fetch both user list and user statistics
+    Promise.all([
+      fetchModel("/api/user/list"),
+      fetchModel("/api/stats/user-stats")
+    ])
+      .then(([userData, statsData]) => {
+        setUsers(userData);
+        setUserStats(statsData);
         setLoading(false);
       })
       .catch((err) => {
-        setError("Failed to fetch users");
+        setError("Failed to fetch users or stats");
         setLoading(false);
         console.error(err);
       });
@@ -37,6 +47,12 @@ function UserList() {
   
   const handleUserClick = (userId) => {
     navigate(`/users/${userId}`);
+  };
+  
+  const handleCommentClick = (userId, event) => {
+    // Prevent the event from bubbling up to the parent ListItemButton
+    event.stopPropagation();
+    navigate(`/comments/${userId}`);
   };
   
   return (
@@ -58,8 +74,7 @@ function UserList() {
         <List component="nav">
           {users.map((user) => (
           <React.Fragment key={user._id}>
-            <ListItem disablePadding>
-              <ListItemButton onClick={() => handleUserClick(user._id)}>
+            <ListItem disablePadding>              <ListItemButton onClick={() => handleUserClick(user._id)}>
                 <Avatar 
                   sx={{ 
                     bgcolor: stringToColor(`${user.first_name} ${user.last_name}`),
@@ -81,6 +96,26 @@ function UserList() {
                     </Box>
                   }
                 />
+                <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
+                  {/* Photo count */}
+                  <Chip
+                    icon={<PhotoIcon />}
+                    label={userStats[user._id]?.photoCount || 0}
+                    size="small"
+                    color="success"
+                    sx={{ minWidth: '60px' }}
+                  />
+                  
+                  {/* Comment count */}
+                  <Chip
+                    icon={<CommentIcon />}
+                    label={userStats[user._id]?.commentCount || 0}
+                    size="small"
+                    color="error"
+                    onClick={(e) => handleCommentClick(user._id, e)}
+                    sx={{ minWidth: '60px', cursor: 'pointer' }}
+                  />
+                </Box>
               </ListItemButton>
             </ListItem>
             <Divider />

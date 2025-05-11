@@ -1,0 +1,34 @@
+.user-photos-container {
+    padding: 16px;
+}
+
+.user-photos-header {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 24px;
+}
+
+.photo-card {
+    margin-bottom: 24px;
+}
+
+.photo-image {
+    max-height: 500px;
+    object-fit: contain;
+}
+
+.comment-item {
+    padding: 16px 8px;
+}
+
+.clickable-avatar {
+    cursor: pointer;
+}
+
+.comment-user-link {
+    cursor: pointer;
+}
+
+.comment-user-link:hover {
+    text-decoration: underline;
+}

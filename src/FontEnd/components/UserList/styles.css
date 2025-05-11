@@ -1,0 +1,16 @@
+.user-list-container {
+    height: 100%;
+    overflow: auto;
+}
+
+.MuiListItemButton-root {
+    padding: 8px 16px;
+}
+
+.MuiListItemText-primary {
+    font-weight: 500;
+}
+
+.MuiListItemButton-root:hover {
+    background-color: rgba(0, 0, 0, 0.04);
+}
